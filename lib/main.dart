@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(
               headlineMedium: TextStyle(
                   color: Color(0xF00F1828),
-                  fontSize: 32,
+                  fontSize: 30,
                   fontWeight: FontWeight.w500),
               headlineSmall: TextStyle(fontSize: 10, color: Colors.black)),
 

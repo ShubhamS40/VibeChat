@@ -23,8 +23,7 @@ class Walkthrough extends StatelessWidget {
             Container(
                 alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(horizontal: 35),
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 255, 255)),
+                decoration: BoxDecoration(),
                 child: Text(
                   "Connect easily with your family and friends over countries",
                   style: Theme.of(context).textTheme.headlineMedium,
