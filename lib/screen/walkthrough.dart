@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibechat/components/button.dart';
+import 'package:vibechat/screen/verification.dart';
 
 class Walkthrough extends StatelessWidget {
   const Walkthrough({super.key});
@@ -33,7 +34,9 @@ class Walkthrough extends StatelessWidget {
               height: 30,
             ),
             Text("Terms & Privacy Policy"),
-            Button(text: "Start Messaging")
+            Button(text: "Start Messaging",onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Verification()));
+            },)
           ],
         ),
       )),
