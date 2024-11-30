@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vibechat/components/button.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:vibechat/authentication/verification2.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class Verification extends StatefulWidget {
   const Verification({super.key});
@@ -12,6 +14,8 @@ class Verification extends StatefulWidget {
 class _VerificationState extends State<Verification> {
    String country_flag="IN";
    String country_code="+91";
+
+
    TextEditingController numberInput= TextEditingController();
 
   @override
@@ -44,7 +48,9 @@ class _VerificationState extends State<Verification> {
 
 
                         ),
-                       child: Text("Please confirm your country code and enter your phone number",style: Theme.of(context).textTheme.headlineSmall,textAlign: TextAlign.center,))
+                       child: Text("Please confirm your country code and enter your phone number",style: Theme.of(context).textTheme.headlineSmall,textAlign: TextAlign.center,)),
+
+
                  ],
                ),
              ),
@@ -68,6 +74,7 @@ class _VerificationState extends State<Verification> {
                   width: MediaQuery.of(context).size.width/1.8,
                   child: TextField(
                     keyboardType: TextInputType.number,
+                    controller: numberInput,
                     decoration: InputDecoration(
                         labelText: "Phone Number",
                         border: OutlineInputBorder(
@@ -80,7 +87,10 @@ class _VerificationState extends State<Verification> {
               ],
             ),),
            SizedBox(height: 50),
-            Button(text: "Continue")
+            Button(text: "Continue",onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> Verification2(country_code: country_code,mobile_number: numberInput.text,)));
+
+            },)
 
 
           ],

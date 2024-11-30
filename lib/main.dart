@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:vibechat/screen/verification.dart';
+import 'package:vibechat/screen/userdetail.dart';
+import 'package:vibechat/authentication/verification.dart';
+import 'package:vibechat/authentication/verification2.dart';
 import 'package:vibechat/screen/walkthrough.dart';
 
 void main() {
@@ -29,6 +31,6 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: Walkthrough());
+        home:Walkthrough());
   }
 }

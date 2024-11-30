@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibechat/components/button.dart';
-import 'package:vibechat/screen/verification.dart';
+import 'package:vibechat/authentication/verification.dart';
 
 class Walkthrough extends StatelessWidget {
   const Walkthrough({super.key});
