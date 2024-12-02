@@ -1,10 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:vibechat/firebase_options.dart';
 import 'package:vibechat/screen/userdetail.dart';
 import 'package:vibechat/authentication/verification.dart';
 import 'package:vibechat/authentication/verification2.dart';
 import 'package:vibechat/screen/walkthrough.dart';
 
-void main() {
+void main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await  Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
   runApp(const MyApp());
 }
 

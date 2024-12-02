@@ -6,8 +6,8 @@ import 'package:vibechat/screen/userdetail.dart';
 class Verification2 extends StatefulWidget {
   final String country_code;
   final String mobile_number;
-  const Verification2({super.key,required this.country_code,required this.mobile_number});
-
+  final String verificationId;
+  const Verification2({super.key,required this.verificationId,required this.country_code,required this.mobile_number});
 
   @override
   State<Verification2> createState() => _Verification2State();

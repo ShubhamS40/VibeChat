@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:vibechat/components/button.dart';
 import 'package:vibechat/screen/chat.dart';
@@ -13,6 +15,12 @@ class _UserdetailState extends State<Userdetail> {
 
   TextEditingController fname =TextEditingController();
   TextEditingController lname =TextEditingController();
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  void saveName(){
+    firestore.collection('user').add({'first_name':fname.text,'last_name':lname.text}).then((onValue)=>ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Data insert Sucessfully")))).catchError((error)=>print(error));
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +66,7 @@ class _UserdetailState extends State<Userdetail> {
                   ),
                   SizedBox(height: 60,),
                   Button(text: "Save",onTap: (){
+                    saveName();
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>Chatscreen()));
                   },)
                 ],
