@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:vibechat/components/button.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:vibechat/authentication/verification2.dart';
 import 'package:vibechat/logic/phone_no_auth_logic.dart';
+import 'package:http/http.dart';
+
 
 class Verification extends StatefulWidget {
   const Verification({super.key});
@@ -14,58 +19,52 @@ class Verification extends StatefulWidget {
 class _VerificationState extends State<Verification> {
   String country_flag = "IN";
   String country_code = "+91"; // Default country code
-  final PhoneAuthService authService = PhoneAuthService();
-
   TextEditingController numberInput = TextEditingController();
+  ApiService apiService =ApiService();
 
-  void onCodeSent(String verificationId) {
-    // Navigate to the next screen after the OTP is sent
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Verification2(
-          country_code: country_code,
-          mobile_number: numberInput.text.trim(),
-          verificationId: verificationId,
-        ),
-      ),
-    );
-  }
+  void sendotp() async {
+    final String phoneNumber = country_code + numberInput.text;
+    print(phoneNumber);
 
-  void onError(String error) {
-    // Log the detailed error
-    print("OTP error details: $error");
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Error: $error')),
-    );
-  }
+    try {
+      // Call the API service to send OTP
+      Map<String, dynamic> response = await apiService.sendOtp(phoneNumber);
 
+      // Check if the OTP was sent successfully
+      if (response['message'] == 'OTP sent successfully') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('OTP sent successfully!')),
+        );
+        var decodedToken = Jwt.parseJwt(response['token']);
+        print(decodedToken);  // This will show the token's payload
 
-  // Function to validate phone number
-  bool isValidPhoneNumber() {
-    String phoneNumber = numberInput.text.trim();
-
-    // Check if the phone number is not empty and contains only numbers
-    if (phoneNumber.isEmpty || phoneNumber.length < 10) {
-      print("Phone number is invalid: $phoneNumber");
-      return false;
+        // Optionally, navigate to the next screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Verification2(
+              verificationId: json.encode(response['token']),
+              country_code: country_code,
+              mobile_number: phoneNumber,
+            ),
+          ),
+        );
+      } else {
+        // Show error if OTP sending failed
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to send OTP. Please try again!')),
+        );
+      }
+    } catch (error) {
+      // Show error Snackbar if any exception is thrown
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $error')),
+      );
     }
-
-    // Check if the phone number is valid based on country code
-    bool isNumeric = RegExp(r'^[0-9]+$').hasMatch(phoneNumber);
-    if (!isNumeric) {
-      print("Phone number contains non-numeric characters: $phoneNumber");
-    }
-
-    return isNumeric;
   }
 
-  // Function to get the full phone number with country code
-  String getFullPhoneNumber() {
-    String fullPhone = '$country_code${numberInput.text.trim()}';
-    print("Full phone number: $fullPhone"); // Debugging line
-    return fullPhone;
-  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +117,8 @@ class _VerificationState extends State<Verification> {
                       );
                     },
                     child: Chip(
-                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                       label: Text("$country_flag $country_code"),
                     ),
                   ),
@@ -142,23 +142,7 @@ class _VerificationState extends State<Verification> {
             SizedBox(height: 50),
             Button(
               text: "Continue",
-              onTap: () {
-                // Validate phone number before sending OTP
-                if (isValidPhoneNumber()) {
-                  String fullPhoneNumber = getFullPhoneNumber(); // Get full phone number with country code
-                  // Send OTP and handle the response
-                  authService.sendOtp(
-                    phoneNumber: fullPhoneNumber, // Pass the full phone number
-                    onCodeSent: onCodeSent,
-                    onError: onError,
-                  );
-                } else {
-                  // Show error message if phone number is invalid
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Please enter a valid phone number')),
-                  );
-                }
-              },
+              onTap: (){sendotp();},
             ),
           ],
         ),
