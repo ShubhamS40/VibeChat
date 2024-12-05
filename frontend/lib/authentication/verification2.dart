@@ -22,15 +22,16 @@ class _Verification2State extends State<Verification2> {
   // Function to verify OTP
   void verifyOtp() async {
     try {
-      final phoneNumber = widget.country_code + widget.mobile_number;
+      final phoneNumber = ( widget.mobile_number).toString();
       final token = widget.verificationId;
 
-      // Perform the API call
-      final response = await apiService.verifyOtp(otp, phoneNumber, token);
+      print("Sending: otp=$otp, phoneNumber=$phoneNumber, token=$token");
 
-      // Check the HTTP response status
+      final response = await apiService.verifyOtp(otp.toString(), phoneNumber, token);
+
+      print("API Response: $response");  // Logs raw response from server
+
       if (response != null) {
-        print("Response: $response");
         if (response['message'] == 'Verification successful') {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('OTP Verified Successfully!')),
@@ -40,14 +41,13 @@ class _Verification2State extends State<Verification2> {
             MaterialPageRoute(builder: (context) => Userdetail()),
           );
         } else {
-          // Handle failure
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to verify OTP. Please try again!')),
+            SnackBar(content: Text(response['message'] ?? 'Failed to verify OTP.')),
           );
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: No response from server')),
+          SnackBar(content: Text('No response from server')),
         );
       }
     } catch (error) {
@@ -57,6 +57,8 @@ class _Verification2State extends State<Verification2> {
       );
     }
   }
+
+
 
 
 

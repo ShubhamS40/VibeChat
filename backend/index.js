@@ -3,7 +3,8 @@ const app=express()
 const authRoutes = require('./routes/auth');
 const session = require("express-session");
 const db=require("./config/db")
-const cors=require("cors")
+const cors=require("cors");
+const userRoute = require("./routes/user");
 app.use(express.json())
 app.use(cors({
     origin:"*",
@@ -12,7 +13,7 @@ app.use(cors({
 }))
 db
 app.use("/api/auth",authRoutes)
-
+app.use("/api",userRoute)
 
 
 app.listen(2000,()=>{console.log("Serevr listening ")});
