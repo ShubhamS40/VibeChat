@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:vibechat/firebase_options.dart';
+import 'package:vibechat/screen/chat.dart';
 import 'package:vibechat/screen/userdetail.dart';
 import 'package:vibechat/authentication/verification.dart';
 import 'package:vibechat/authentication/verification2.dart';
@@ -38,6 +39,6 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home:Walkthrough());
+        home:Chatscreen());
   }
 }

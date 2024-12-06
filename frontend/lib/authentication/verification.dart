@@ -5,7 +5,7 @@ import 'package:jwt_decode/jwt_decode.dart';
 import 'package:vibechat/components/button.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:vibechat/authentication/verification2.dart';
-import 'package:vibechat/logic/phone_no_auth_logic.dart';
+import 'package:vibechat/logic/auth_logic.dart';
 import 'package:http/http.dart';
 
 

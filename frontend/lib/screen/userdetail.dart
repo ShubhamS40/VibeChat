@@ -2,10 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:vibechat/components/button.dart';
+import 'package:vibechat/logic/user_logic.dart';
 import 'package:vibechat/screen/chat.dart';
 
 class Userdetail extends StatefulWidget {
-  const Userdetail({super.key});
+ final String user_id;
+  const Userdetail({super.key,required this.user_id});
+
 
   @override
   State<Userdetail> createState() => _UserdetailState();
@@ -16,8 +19,25 @@ class _UserdetailState extends State<Userdetail> {
   TextEditingController fname =TextEditingController();
   TextEditingController lname =TextEditingController();
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  void saveName(){
-    firestore.collection('user').add({'first_name':fname.text,'last_name':lname.text}).then((onValue)=>ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Data insert Sucessfully")))).catchError((error)=>print(error));
+  Update_User update_user = Update_User();
+
+  void saveName() async{
+
+    print("Hello Shubham Userid : ${fname.text} ${lname.text}  ${widget.user_id}");
+    final response=  await update_user.updateUser(widget.user_id, fname.text, lname.text);
+    print("Final Response form User Deatil Page $response");
+    if(response != null){
+      if(response["message"] == 'User updated successfully'){
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("User Detail Add success Fully")));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>Chatscreen()));
+      }else{
+         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed To Add User Detail ${response['message']}")));
+      }
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('No response from server')),
+      );
+    }
   }
 
 
@@ -65,10 +85,7 @@ class _UserdetailState extends State<Userdetail> {
                     ),
                   ),
                   SizedBox(height: 60,),
-                  Button(text: "Save",onTap: (){
-                    saveName();
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Chatscreen()));
-                  },)
+                  Button(text: "Save",onTap: (){saveName(); ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Save Button Tap")));},)
                 ],
               ),
             ),

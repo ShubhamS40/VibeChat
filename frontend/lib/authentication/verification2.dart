@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:vibechat/components/button.dart';
 import 'package:vibechat/screen/userdetail.dart';
-import 'package:vibechat/logic/phone_no_auth_logic.dart'; // Import your ApiService
+import 'package:vibechat/logic/auth_logic.dart'; // Import your ApiService
 
 
 class Verification2 extends StatefulWidget {
@@ -36,9 +36,11 @@ class _Verification2State extends State<Verification2> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('OTP Verified Successfully!')),
           );
+          print("Verification 2 ${response['userId']}");
+          final user_id={response['userId']}.toString();
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Userdetail()),
+            MaterialPageRoute(builder: (context) => Userdetail(user_id:user_id ,))
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
