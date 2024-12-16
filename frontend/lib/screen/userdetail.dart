@@ -3,7 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:vibechat/components/button.dart';
 import 'package:vibechat/logic/user_logic.dart';
-import 'package:vibechat/screen/chat.dart';
+import 'package:vibechat/screen/home.dart';
 
 class Userdetail extends StatefulWidget {
  final String user_id;
@@ -29,7 +29,7 @@ class _UserdetailState extends State<Userdetail> {
     if(response != null){
       if(response["message"] == 'User updated successfully'){
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("User Detail Add success Fully")));
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Chatscreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>Homepage()));
       }else{
          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed To Add User Detail ${response['message']}")));
       }

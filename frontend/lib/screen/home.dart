@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:vibechat/components/card_list.dart';
+import 'package:vibechat/components/chat.dart';
 
-class Chatscreen extends StatefulWidget {
-  const Chatscreen({super.key});
+
+class Homepage extends StatefulWidget {
+  const Homepage({super.key});
 
   @override
-  State<Chatscreen> createState() => _ChatscreenState();
+  State<Homepage> createState() => _HomepageState();
 }
 
-class _ChatscreenState extends State<Chatscreen> with SingleTickerProviderStateMixin {
+class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -30,7 +31,21 @@ class _ChatscreenState extends State<Chatscreen> with SingleTickerProviderStateM
         backgroundColor: Color(0xF0002DE3),
         title: Text("Chats", style: TextStyle(color: Colors.white)),
         actions: [
-          Icon(Icons.app_registration, color: Colors.white)
+          PopupMenuButton(color: Colors.white,onSelected: (value){print(value);},itemBuilder: (BuildContext context){
+              return [
+                PopupMenuItem(child: Text("Advertise"),value: "New group",),
+                PopupMenuItem(child: Text("Business tools"),value: "New group",),
+                PopupMenuItem(child: Text("MArketing messages"),value: "New group",),
+                PopupMenuItem(child: Text("New Group"),value: "New group",),
+                PopupMenuItem(child: Text("New broadcast"),value: "New group",),
+                PopupMenuItem(child: Text("Communities"),value: "New group",),
+                PopupMenuItem(child: Text("Labels"),value: "New group",),
+                PopupMenuItem(child: Text("Linked devices"),value: "New group",),
+                PopupMenuItem(child: Text("Starteed messages"),value: "New group",),
+                PopupMenuItem(child: Text("Settings"),value: "New group",),
+
+              ];
+          },)
         ],
         bottom: TabBar(
           controller: _tabController,
@@ -47,8 +62,8 @@ class _ChatscreenState extends State<Chatscreen> with SingleTickerProviderStateM
       body: TabBarView(
         controller: _tabController,
         children: [
-          CardList(),
-          Text("chats",  ),
+          Text("camera"),
+          Chatpage(),
           Text("Status", ),
           Text("calls", ),
         ],

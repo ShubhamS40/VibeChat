@@ -1,18 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:vibechat/firebase_options.dart';
-import 'package:vibechat/screen/chat.dart';
+import 'package:vibechat/screen/home.dart';
+import 'package:vibechat/screen/individual.dart';
 import 'package:vibechat/screen/userdetail.dart';
 import 'package:vibechat/authentication/verification.dart';
 import 'package:vibechat/authentication/verification2.dart';
 import 'package:vibechat/screen/walkthrough.dart';
 
-void main() async{
-
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await  Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -33,12 +31,15 @@ class MyApp extends StatelessWidget {
                   color: Color(0xF00F1828),
                   fontSize: 30,
                   fontWeight: FontWeight.w500),
-              headlineSmall: TextStyle(fontSize: 15, color: Colors.black,fontWeight: FontWeight.w100)),
+              headlineSmall: TextStyle(
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w100)),
 
           // This is the theme of your application.
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home:Chatscreen());
+        home: Homepage());
   }
 }
