@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:vibechat/ui_component/ownMessagecard.dart';
+import 'package:vibechat/ui_component/replyMessagecard.dart';
+
+
 
 class IndividualPage extends StatefulWidget {
   final String name;
@@ -13,6 +18,35 @@ class IndividualPage extends StatefulWidget {
 class _IndividualPageState extends State<IndividualPage> {
   bool _showEmojiPicker = false; // Track emoji picker visibility
   TextEditingController _messageController = TextEditingController();
+  String? value;
+
+  @override
+  void initState() {
+    super.initState();
+    _messageController.addListener(() {
+      setState(() {
+        value = _messageController.text;
+      });
+    });
+    connect();
+  }
+
+
+ void connect(){
+   IO.Socket socket = IO.io('http://192.168.4.214:3000',<String,dynamic>{
+     "transport":["websocket"],
+     "autoConnect":"false"
+   });
+
+   socket.connect();
+   socket.on('welcome', (data){
+     print(data);
+   });
+
+ }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -82,13 +116,29 @@ class _IndividualPageState extends State<IndividualPage> {
       ),
       body: Stack(
         children: [
+          ListView(
+            children: const [
+              Ownmessagecard(),
+              Replymessagecard(),
+              Ownmessagecard(),
+              Replymessagecard(),
+              Ownmessagecard(),
+              Replymessagecard(),
+            ],
+          ),
           Column(
             children: [
               Expanded(child: Container()), // Placeholder for chat messages
               _buildMessageInput(),
             ],
           ),
-          if (_showEmojiPicker) _buildEmojiPicker(),
+          if (_showEmojiPicker)
+            Positioned(
+              bottom: 0, // Position the emoji picker at the bottom of the screen
+              left: 0,
+              right: 0,
+              child: _buildEmojiPicker(),
+            ),
         ],
       ),
     );
@@ -133,9 +183,12 @@ class _IndividualPageState extends State<IndividualPage> {
             radius: 25,
             backgroundColor: const Color(0xFF002DE3),
             child: IconButton(
-              icon: const Icon(Icons.mic, color: Colors.white),
+              icon: Icon(
+                _messageController.text.isNotEmpty ? Icons.send : Icons.mic,
+                color: Colors.white,
+              ),
               onPressed: () {
-                // Handle voice recording
+                // Handle sending message or voice recording
               },
             ),
           ),
@@ -151,11 +204,8 @@ class _IndividualPageState extends State<IndividualPage> {
         _messageController.text += emoji.emoji;
       },
       config: Config(
-    height: 10,
-
+        height: 250, // Fixed height for the emoji picker
       ),
     );
-
-
   }
 }

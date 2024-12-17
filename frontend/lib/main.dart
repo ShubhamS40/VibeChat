@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vibechat/firebase_options.dart';
 import 'package:vibechat/screen/home.dart';
 import 'package:vibechat/screen/individual.dart';
+import 'package:vibechat/screen/selectcontact.dart';
 import 'package:vibechat/screen/userdetail.dart';
 import 'package:vibechat/authentication/verification.dart';
 import 'package:vibechat/authentication/verification2.dart';
@@ -25,7 +26,13 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           //Text Theme
-
+         appBarTheme: AppBarTheme(
+           color: Color(0xF0002DE3),
+           titleTextStyle: TextStyle(color: Colors.white),
+             iconTheme: IconThemeData(
+             color: Colors.white
+         )
+         ),
           textTheme: TextTheme(
               headlineMedium: TextStyle(
                   color: Color(0xF00F1828),
@@ -40,6 +47,6 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: Homepage());
+        home: Selectcontact());
   }
 }

@@ -62,11 +62,16 @@ class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin
       body: TabBarView(
         controller: _tabController,
         children: [
-          Text("camera"),
           Chatpage(),
+          Text("camera"),
+
           Text("Status", ),
           Text("calls", ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(onPressed: (){},
+      child: Icon(Icons.message,color: Colors.white,),
+        backgroundColor: Color(0xF0002DE3),
       ),
     );
   }
